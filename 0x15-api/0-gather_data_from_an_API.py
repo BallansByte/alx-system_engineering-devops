@@ -1,52 +1,37 @@
 #!/usr/bin/python3
 
 """
-This script fetches and displays the TODO list progress of an employee
-based on the provided employee ID.
+Python script that, using a REST API, for a given employee ID,
+returns information about his/her TODO list progress.
 """
 
-import requests
-import sys
-
-
-def fetch_employee_data(employee_id):
-    url_user = f'https://jsonplaceholder.typicode.com/users/{employee_id}'
-    url_todos = f'https://jsonplaceholder.typicode.com/todos?userId={employee_id}'
-    user_response = requests.get(url_user)
-    todos_response = requests.get(url_todos)
-    
-    if user_response.status_code != 200 or todos_response.status_code != 200:
-        raise Exception("Error fetching data from the API")
-    
-    return user_response.json(), todos_response.json()
-
-
-def display_todo_progress(employee_id):
-    try:
-        user_data, todos_data = fetch_employee_data(employee_id)
-    except Exception as e:
-        print(e)
-        return
-    
-    employee_name = user_data.get('name')
-    total_tasks = len(todos_data)
-    done_tasks = [task for task in todos_data if task.get('completed')]
-    number_of_done_tasks = len(done_tasks)
-    
-    print(f"Employee {employee_name} is done with tasks({number_of_done_tasks}/{total_tasks}):")
-    for task in done_tasks:
-        print(f"\t {task.get('title')}")
+from requests import get
+from sys import argv
 
 
 if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        print("Usage: ./script_name.py <employee_id>")
-        sys.exit(1)
-    
-    try:
-        employee_id = int(sys.argv[1])
-    except ValueError:
-        print("Employee ID must be an integer")
-        sys.exit(1)
-    
-    display_todo_progress(employee_id)
+    response = get('https://jsonplaceholder.typicode.com/todos/')
+    data = response.json()
+    completed = 0
+    total = 0
+    tasks = []
+    response2 = get('https://jsonplaceholder.typicode.com/users')
+    data2 = response2.json()
+
+    for i in data2:
+        if i.get('id') == int(argv[1]):
+            employee = i.get('name')
+
+    for i in data:
+        if i.get('userId') == int(argv[1]):
+            total += 1
+
+            if i.get('completed') is True:
+                completed += 1
+                tasks.append(i.get('title'))
+
+    print("Employee {} is done with tasks({}/{}):".format(employee, completed,
+                                                          total))
+
+    for i in tasks:
+        print("\t {}".format(i))
