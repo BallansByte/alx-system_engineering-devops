@@ -2,5 +2,4 @@
 # Stopping the 4-to_infinity_and_beyond process using kill
 
 # Assuming the process ID (PID) of the 4-to_infinity_and_beyond script is known
-# Replace <pid> with the actual PID of the process
-kill <pid>
+kill "$(ps -x | pgrep -f beyond)"
