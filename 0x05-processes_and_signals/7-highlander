@@ -1,6 +1,11 @@
-Write a Bash script that displays:
+#!/usr/bin/env bash
 
-To infinity and beyond indefinitely
-With a sleep 2 in between each iteration
-I am invincible!!! when receiving a SIGTERM signal
-Make a copy of your 6-stop_me_if_you_can script, name it 67-stop_me_if_you_can, that kills the 7-highlander process instead of the 4-to_infinity_and_beyond one.
+# This script displays
+# to infinity and beyond indefinitely
+# With a sleep 2 in between each iteration
+
+trap 'echo "I am invincible!!!"' 15
+while true; do
+    echo "to infinity and beyond"
+    sleep 2
+done
