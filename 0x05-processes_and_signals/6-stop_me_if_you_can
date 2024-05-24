@@ -2,4 +2,4 @@
 # Stopping the 4-to_infinity_and_beyond process using pkill
 
 # Sending SIGTERM signal to the process named "4-to_infinity_and_beyond"
-pkill -SIGTERM 4-to_infinity_and_beyond
+pkill -f beyond
