@@ -26,8 +26,3 @@ def number_of_subscribers(subreddit):
         return data.get('data', {}).get('subscribers', 0)
     return 0
 
-
-if __name__ == '__main__':
-    subreddit = 'guns'
-    subscribers = number_of_subscribers(subreddit)
-    print(f"Number of subscribers in r/{subreddit}: {subscribers}")
